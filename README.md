@@ -5,4 +5,4 @@ This is a repository for Machine Learning
 
 This is a summation of my basic understanding of Machine Learning.
 
-You can see the document about my understanding of Machine Learning here (Overview_of_ML.pdf)
+You can see the document about my understanding of Machine Learning here [Overview_of_ML](Overview_of_ML.pdf)
