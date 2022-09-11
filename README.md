@@ -11,4 +11,4 @@ You can see the document about my understanding of Machine Learning here [Overvi
 
 This is a C++ file going through a basic statistical analysis of two columns of data.
 
-You can find the C++ file here [Data_Exploration](Data_Exploration.cpp)
+You can find the C++ file here [Data_Exploration](Data_Exploration.cpp), and you can find a document about exploring data [here](Data Exploration.pdf)
