@@ -18,3 +18,9 @@ You can find the C++ file here [Data_Exploration](Data_Exploration.cpp), and you
 These are two pdf files created in R exploring linear regression, logistic regression, and naive bias.
 
 You can find the pdf file of linear regression [here](Regression.pdf), and you can find the pdf file for logistic regression and naive bias [here](Classification.pdf)
+
+## Machine Learning Algortihms from Scratch
+
+This is a C++ file implementing the use of Naive Bayes on the survivability of each member of the titanic
+
+You can find the C++ file here [naive_bayes.cpp](naive_bayes.cpp).
