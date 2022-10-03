@@ -24,3 +24,5 @@ You can find the pdf file of linear regression [here](Regression.pdf), and you c
 There are 2 C++ files implementing the use of Naive Bayes and Logistic Regression on the survivability of each member of the titanic.
 
 You can find the C++ files here [naive_bayes.cpp](naive_bayes.cpp) and [logistic_reg.cpp](logistic_reg.cpp)
+
+Here is a document about my understanding of ML algorithms from scratch [ML_Algorithms.pdf](ML_Algorithms.pdf)
