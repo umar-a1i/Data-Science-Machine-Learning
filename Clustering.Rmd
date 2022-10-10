@@ -1,0 +1,266 @@
+---
+title: "Clustering"
+author: "Group 10 (Umar, Cory, Caroline, Benji)"
+date: "10/9/2022"
+output:
+  pdf_document: default
+  html_notebook: default
+---
+
+Source: https://www.kaggle.com/datasets/sulianova/cardiovascular-disease-dataset
+
+This is a dataset based off of 70,000 records of patient data (Heart Related).
+Columns (13): ID, Age, Height(cm), Weight(kg), Gender, Systolic Blood Pressure 
+(AP_HIGH), Diastolic Blood Pressure (AP LOW), Cholesterol, Glucose, Smoking, 
+Alcohol Intake, Physical Activity, Presence or Absence of cardiovascular disease.
+
+The .csv file needed to be edited a bit in Microsoft Excel before using it in R.
+I just performed a split column delimiter function around semicolons, to divide
+the singular column that existed into 13. Each row had 13 variables in 1 column 
+separated by semicolons, the function I ran split it up into 13 columns, making
+a 70,000 x 13 table.
+
+https://www.heart.org/en/health-topics/high-blood-pressure/understanding-blood-pressure-readings
+
+Visit the website above to better understand Systolic and Diastolic Blood Pressure
+
+
+### Cleaning Data
+
+
+```{r}
+
+
+library(ggplot2)
+library(flexclust)
+library(mclust)
+
+
+# Read in .csv file
+heart <- read.csv("cardio_train.csv")
+
+
+# Clean out any rows that have an unrealistic blood pressure (AP_HIGH & AP_LOW)
+# They looked to be input errors by the person who made the data set
+s <- subset(heart, AP_HIGH > 50)
+
+s1 <- subset(s, AP_HIGH < 200)
+
+s2 <- subset(s1, AP_LOW > 25)
+
+s3 <- subset(s2, AP_LOW < 200)
+
+
+# Removing little people(4'10") and Giants(7'3"), values are in cm
+s4 <- subset(s3, HEIGHT > 147)
+
+s5 <- subset(s4, HEIGHT < 220)
+
+
+# Removing anyone below 90 lbs and above 375 lbs, the values are in kg
+s6 <- subset(s5, WEIGHT > 40)
+
+h1 <- subset(s6, WEIGHT < 180)
+
+# AGE is in days so to get years i just divide by 365
+h1$AGE <- (h1$AGE / 365)
+
+# Removing people under 40
+h <- subset(h1, AGE > 39)
+
+# Checking for any NA values
+# There is none
+colSums(is.na(h))
+
+# Everything that should be factored is factored
+h$GENDER <- factor(h$GENDER)
+h$CHOLESTEROL <- factor(h$CHOLESTEROL)
+h$GLUCOSE <- factor(h$GLUCOSE)
+h$SMOKE <- factor(h$SMOKE)
+h$ALCOHOL <- factor(h$ALCOHOL)
+h$PHYSICAL_ACTIVITY <- factor(h$PHYSICAL_ACTIVITY)
+h$CARDIO_DISEASE <- factor(h$CARDIO_DISEASE)
+
+
+# There is now 67,685 rows
+
+str(h)
+
+```
+
+### Kmean Clusters
+
+Determining how many numbers of clusters to use for the data
+
+```{r}
+
+# Function for finding optimal number of clusters
+
+hplot <- function(data, nc = 15, seed = 2354)
+{
+  hss <- (nrow(h) - 1) * sum(apply(h, 2, var))
+  for (i in 2:nc)
+  {
+    set.seed(seed)
+    hss[i] <- sum(kmeans(h, centers = i)$withinss)
+  }
+  plot(1:nc, hss, type = "b", xlab = "Number of Clusters",
+       ylab = "Within groups sum of squares")
+}
+
+# Show graph
+
+hplot(h)
+
+cat("Looking at the graph, three seems to be the optimal number of clusters.\n
+That's where the 'elbow' is.")
+
+```
+
+Making the kmean clusters based off of 3 clusters
+
+```{r}
+
+# Set unique and repeatable random variable
+
+set.seed(2354)
+
+# Clustering off of Systolic and Diastolic blood pressure
+
+heartCluster <- kmeans(h[, 6:7], 3, nstart = 20)
+
+# Data is too large to show the summary for
+
+cat("K-means clustering with 3 clusters of sizes 12542, 18119, 37024
+
+Cluster means:
+   AP_HIGH   AP_LOW
+1 106.5830 70.24629
+2 148.3140 90.72096
+3 122.4537 80.46778
+
+Clustering vector:
+
+[ reached getOption('max.print') -- omitted 66685 entries ]
+
+Within cluster sum of squares by cluster:
+[1] 1330107 3536136 1932918
+ (between_SS / total_SS =  71.9 %)
+
+Available components:
+
+[1] 'cluster'      'centers'      'totss'        'withinss'    
+[5] 'tot.withinss' 'betweenss'    'size'         'iter'        
+[9] 'ifault'   ")
+
+```
+
+Looking at clusters through the lens of having heart disease
+
+```{r}
+
+# Comparing the cluster and the presence of heart disease
+# A '1' on the x-axis means they have heart disease
+
+table(heartCluster$cluster, h$CARDIO_DISEASE)
+
+```
+
+Displaying clusters on scatter plot
+
+```{r}
+
+# Plotting the clusters on a scatter plot
+
+plot(h$AP_HIGH, h$AP_LOW, pch = 21, bg = c("red", "pink", "slateblue")
+     [unclass(heartCluster$cluster)], main = "Heart Data")
+
+```
+
+### Hierarchical Clustering
+
+```{r}
+
+# Removing any categorical data and ID's
+
+hrt <- subset(h, select = -c(ID, GENDER, CHOLESTEROL, GLUCOSE, SMOKE, ALCOHOL,
+                             PHYSICAL_ACTIVITY, CARDIO_DISEASE))
+
+# Limiting data points to 50 for the sake of the visibility of the table
+
+hrt <- hrt[1:50,]
+
+# Displaying new table
+
+head(hrt)
+
+# Scaling the data
+
+hrt.scaled <- scale(hrt)
+
+head(hrt.scaled)
+
+```
+
+Displaying Hierarchical Graph (Dendogram)
+
+```{r}
+
+# Finding the distances between each data point
+
+di <- dist(hrt.scaled)
+
+fit.average <- hclust(di, method = "average")
+
+plot(fit.average, hang = -1, cex = .8, main = "Hierarchical Clustering")
+
+```
+
+Cutting data
+
+```{r}
+
+# Learning more about the data through cutting
+
+# SIDENOTE: Hierarchical Clustering isn't the easiest to understand, but is good 
+# for learning more about your data
+
+for (c in 3:11)
+{
+  cluster_cut <- cutree(fit.average, c)
+  table_cut <- table(cluster_cut, hrt$AP_LOW)
+  print(table_cut)
+  ri <- randIndex(table_cut)
+  print(paste("cut=", c, "Rand Index = ", ri))
+}
+
+```
+
+### Model Based
+
+```{r}
+
+# Shrink data set to 500 for the sake of the algorithms
+
+hhrt <- subset(h[1:500,], select = -c(ID, GENDER, CHOLESTEROL, GLUCOSE, SMOKE, ALCOHOL,
+                             PHYSICAL_ACTIVITY, CARDIO_DISEASE))
+
+fitt <- Mclust(hhrt)
+
+# Plot results
+
+plot(fitt)
+
+# Display the best model
+
+summary(fitt)
+
+cat("The first one is the BIC graph, it suggests EEV with 7 groups, based on the 
+\nhighest BIC value and the number of components it intersects with. The summary
+\nof the model also suggests the same thing. Classification, uncertainty, and
+\ndensity all have a very similar looking graphs. They just show correlation
+\non a scatterplot matrix. Unsurprisingly, age and height seem to have very
+\nlittle correlation, due to the age range of the data (40 - 65), and systolic
+\nand diastolic blood pressure have the most correlation.")
+
+```
