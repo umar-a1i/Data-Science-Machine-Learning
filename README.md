@@ -26,3 +26,11 @@ There are 2 C++ files implementing the use of Naive Bayes and Logistic Regressio
 You can find the C++ files here [naive_bayes.cpp](naive_bayes.cpp) and [logistic_reg.cpp](logistic_reg.cpp)
 
 Here is a document about my understanding of ML algorithms from scratch [ML_Algorithms.pdf](ML_Algorithms.pdf)
+
+## Searching for Similarities
+
+There are 4 pdf files about implementing classification, regression, clustering, and dimensionality reduction.
+
+You can find classification [here](Notebook1.pdf), regression [here](Notebook2_1.pdf), clustering [here](Clustering.pdf), and dimensionality reduction[here](Notebook4.pdf).
+
+Here is a document about my understanding of [Searching_for_Similarities](SearchingforSimilarity.pdf).
