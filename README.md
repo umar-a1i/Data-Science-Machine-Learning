@@ -34,3 +34,9 @@ There are 4 pdf files about implementing classification, regression, clustering,
 You can find classification [here](Notebook1.pdf), regression [here](Notebook2_1.pdf), clustering [here](Clustering.pdf), and dimensionality reduction [here](Notebook4.pdf).
 
 Here is a document about my understanding of [Searching_for_Similarities](SearchingforSimilarity.pdf).
+
+## Support Vector Machine
+
+You can find SVM Regression [here](Notebook_1_Regression.pdf), SVM Classification [here](Notebook_2_Classification.pdf), and Ensemble Techniques [here](Notebook3_EM.nb.html).
+
+Here is a document about my understanding of [Support Vector Machines](SVM.pdf).
