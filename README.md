@@ -39,6 +39,6 @@ Here is a document about my understanding of [Searching_for_Similarities](Search
 
 There are 3 pdf files about SVM classification, regression, and Ensemble Techniques.
 
-You can find SVM Regression [here](Notebook_1_Regression.pdf), SVM Classification [here](Notebook_2_Classification.pdf), and Ensemble Techniques [here](Notebook3_EM.nb.html).
+You can find SVM Regression [here](Notebook_1_Regression.pdf), SVM Classification [here](Notebook_2_Classification.pdf), and Ensemble Techniques [here](Notebook3_EM.nb.pdf).
 
 Here is a document about my understanding of [Support Vector Machines](SVM.pdf).
