@@ -43,6 +43,6 @@ You can find SVM Regression [here](Notebook_1_Regression.pdf), SVM Classificatio
 
 Here is a document about my understanding of [Support Vector Machines](SVM.pdf).
 
-## ML with sklearn
+## ML with Sklearn
 
 There is a pdf file about ML with sklearn in Python, you can find it [here](ML_sklearn.pdf).
