@@ -49,4 +49,6 @@ There is a pdf file about ML with sklearn in Python, you can find it [here](ML_s
 
 ## Image Classification
 
+This is an implementation of a sequential model, CNN, and Resnet50 (Pretrained model) on the classification of images of cats and dogs.
+
 There is a pdf file about Image Classification with keras in Python, you can find it [here](DogCatClass.ipynb_-_Colaboratory.pdf).
