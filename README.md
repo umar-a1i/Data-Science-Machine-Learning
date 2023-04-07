@@ -1,4 +1,4 @@
-# ML_4375
+# Machine Learning
 This is a repository for Machine Learning
 
 ## Overview of ML
